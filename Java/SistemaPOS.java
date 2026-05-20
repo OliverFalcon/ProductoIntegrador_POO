@@ -1,7 +1,9 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 
 // 1. Excepción Personalizada
 class ProductoNoEncontradoException extends Exception {
@@ -74,7 +76,9 @@ class Repositorio<T extends EntidadBase> {
 public class SistemaPOS {
     public static void main(String[] args) {
         Repositorio<Producto> inventario = new Repositorio<>();
-        Scanner scanner = new Scanner(System.in);
+        
+        // USO DE BUFFREDREADER EN LUGAR DE SCANNER
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int opcion = 0;
 
         // Carga inicial sugerida en el documento
@@ -88,10 +92,11 @@ public class SistemaPOS {
             System.out.println("3. Eliminar Producto");
             System.out.println("4. Salir");
             System.out.print("Elige una opción: ");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
-
+            
             try {
+                // Lectura y conversión directa
+                opcion = Integer.parseInt(reader.readLine());
+
                 switch (opcion) {
                     case 1:
                         System.out.println("\n--- INVENTARIO ACTUAL ---");
@@ -100,24 +105,32 @@ public class SistemaPOS {
                         }
                         break;
                     case 2:
-                        System.out.print("ID: "); String id = scanner.nextLine();
-                        System.out.print("Nombre: "); String nombre = scanner.nextLine();
-                        System.out.print("Precio: "); double precio = scanner.nextDouble();
-                        System.out.print("Stock: "); int stock = scanner.nextInt();
+                        System.out.print("ID: "); 
+                        String id = reader.readLine();
+                        System.out.print("Nombre: "); 
+                        String nombre = reader.readLine();
+                        System.out.print("Precio: "); 
+                        double precio = Double.parseDouble(reader.readLine());
+                        System.out.print("Stock: "); 
+                        int stock = Integer.parseInt(reader.readLine());
+                        
                         inventario.agregar(new Producto(id, nombre, precio, stock));
                         System.out.println("¡Agregado exitosamente!");
                         break;
                     case 3:
                         System.out.print("Introduce el ID a eliminar: ");
-                        String idEliminar = scanner.nextLine();
+                        String idEliminar = reader.readLine();
                         inventario.eliminarPorId(idEliminar);
                         System.out.println("Producto eliminado.");
                         break;
                 }
             } catch (ProductoNoEncontradoException e) {
+                // Captura nuestra excepción personalizada
                 System.out.println(e.getMessage());
+            } catch (IOException | NumberFormatException e) {
+                // Captura errores si el usuario mete letras en lugar de números o falla el buffer
+                System.out.println("Error en la entrada de datos. Por favor, intenta de nuevo ingresando valores correctos.");
             }
         }
-        scanner.close();
     }
 }
