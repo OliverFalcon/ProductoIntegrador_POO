@@ -31,4 +31,4 @@ El código está desarrollado de manera idéntica en lógica y estructura en tre
 ---
 
 ## 🚀 Cómo Ejecutar los Proyectos
-Cualquiera de los tres archivos principales (`SistemaPOS.java`, `Program.cs` o `main.py`) puede ser copiado y ejecutado directamente en entornos locales o compiladores online en modo consola (como OnlineGDB o Replit).
+Cualquiera de los tres archivos principales (`Main.java`, `Program.cs` o `main.py`) puede ser copiado y ejecutado directamente en entornos locales o compiladores online en modo consola (como OnlineGDB o Replit).
